@@ -10,6 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+	@IBAction func clearButton(_ sender: UIButton) {
+		defaults.set("", forKey: "amount")
+		self.amountField.text = defaults.string(forKey: "amount")
+		self.compute()
+	}
 	let defaults = UserDefaults.standard
 	@IBAction func amountChanged(_ sender: UITextField) {
 		defaults.set(sender.text, forKey: "amount")
@@ -25,7 +30,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var totalField: UILabel!
 	@IBOutlet weak var tipField: UILabel!
 	func compute() {
-		let amount = Double(defaults.string(forKey: "amount")!) ?? 0.0
+		let amount = Double(defaults.string(forKey: "amount") ?? "0.0") ?? 0.0
 		let tips = [0.18, 0.20, 0.30]
 		let tip = amount * tips[defaults.integer(forKey: "tipSegment")]
 		let total = amount + tip
